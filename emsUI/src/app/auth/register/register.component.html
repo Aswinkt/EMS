@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title text-center mb-4">Register</h2>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input formControlName="email" type="email" class="form-control" id="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input formControlName="username" type="text" class="form-control" id="username" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input formControlName="password" type="password" class="form-control" id="password" required>
+              </div>
+              <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input formControlName="first_name" type="text" class="form-control" id="first_name" required>
+              </div>
+              <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input formControlName="last_name" type="text" class="form-control" id="last_name" required>
+              </div>
+              <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid || loading">
+                Register
+              </button>
+              <div *ngIf="error" class="alert alert-danger mt-2">{{ error }}</div>
+              <div *ngIf="success" class="alert alert-success mt-2">Registration successful! Redirecting to login...</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

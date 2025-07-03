@@ -1,0 +1,89 @@
+<div class="container py-4">
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Employees</h3>
+        <button
+          class="btn btn-success btn-lg d-flex align-items-center"
+          style="min-width: 220px;"
+          (click)="onAddEmployeeClick()"
+          *ngIf="!showAddEmployee"
+        >
+          <i class="bi bi-plus-lg me-2"></i>
+          <span>Add Employee</span>
+        </button>
+      </div>
+      <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Form</th>
+              <th>Created Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let emp of employees">
+              <td>{{ emp.id }}</td>
+              <td>{{ getFormName(emp.form) }}</td>
+              <td>{{ emp.created_at | date:'d MMM yyyy, h:mm a':'Asia/Kolkata' }}</td>
+              <td>
+                <button class="btn btn-link p-0 me-2" (click)="viewDetails(emp)" title="View">
+                  <i class="bi bi-eye" style="font-size: 1.3em;"></i>
+                </button>
+                <button class="btn btn-link p-0 me-2" (click)="editEmployee(emp)" title="Edit">
+                  <i class="bi bi-pencil" style="font-size: 1.3em;"></i>
+                </button>
+                <button class="btn btn-link p-0 text-danger" (click)="deleteEmployee(emp.id)" title="Delete">
+                  <i class="bi bi-trash" style="font-size: 1.3em;"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Employee Details -->
+  <div *ngIf="selectedEmployee && selectedEmployee.field_values && !editingEmployee" class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="mb-3">Employee Details (ID: {{ selectedEmployee.id }})</h5>
+      <div class="input-group mb-3" style="max-width: 300px;">
+        <span class="input-group-text bg-transparent border-0 px-2">
+          <i class="bi bi-search"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control bg-transparent border-0 border-bottom rounded-pill shadow-sm px-3"
+          [(ngModel)]="fieldSearch"
+          (ngModelChange)="fetchEmployeeDetails(selectedEmployee.id)"
+          placeholder="Search fields"
+          style="font-size: 1.1em;"
+        />
+      </div>
+      <ul class="list-group mb-3">
+        <li class="list-group-item" *ngFor="let fv of selectedEmployee.field_values">
+          <strong>{{ fv.field_label }}:</strong> {{ fv.value }}
+        </li>
+      </ul>
+      <button class="btn btn-secondary btn-sm" (click)="selectedEmployee = null">Close</button>
+    </div>
+  </div>
+
+  <!-- Edit Employee Form -->
+  <div *ngIf="editingEmployee" class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="mb-3">Edit Employee (ID: {{ editingEmployee.id }})</h5>
+      <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
+        <div *ngFor="let fv of editingEmployee.field_values" class="mb-3">
+          <label class="form-label">{{ fv.field_label }}</label>
+          <input class="form-control" [formControlName]="fv.field_label" />
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary ms-2" (click)="cancelEdit()">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
