@@ -34,7 +34,7 @@ EMS/
 
 ---
 
-## Setup Instructions
+## Project Setup 
 
 ### Backend (Django 5.2)
 
@@ -72,14 +72,5 @@ EMS/
    ```
 3. **Access the app:**
    - Open [http://localhost:4200](http://localhost:4200) in your browser.
-
----
-
-## Development Notes
-
-- **API URLs:**
-  - Angular uses an `API_URL` injection token for backend calls. 
-- **Authentication:**
-  - JWT tokens are attached to all requests via an HTTP interceptor.
 
 ---
